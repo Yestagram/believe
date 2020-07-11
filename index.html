@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>We believe Shuaifu</title>
+    <title>帅副全球信仰总会</title>
     <style>
         * {
             box-sizing: border-box;
@@ -53,14 +53,22 @@
             color: #555555;
             font-size: 24px;
         }
+
+        .text-sm {
+            font-size: 12px;
+            font-weight: 100;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
 </head>
 <body>
 <div class="container">
     <div class="center">
-        <div class="circle" id="plus_one">我信仰帅副</div>
-        <div class="text">已有<span id="num">_</span>人次信仰帅副</div>
+        <div class="text">
+            <p>已有<span id="num">_</span>人次信仰帅副</p>
+            <p>We Believe Shuaifu!</p>
+            <small class="text-sm">Ver 1.0</small>
+        </div>
     </div>
 </div>
 <script>
@@ -69,23 +77,23 @@
         let sf = gun.get('sf_num');
         let num = -1;
         let numSpan = document.getElementById('num');
-        let divPlusOne = document.getElementById('plus_one');
+        let divCenter = document.querySelector('.center');
+        let divPlusOne = document.createElement('div');
+        divPlusOne.innerText = '我信仰帅副';
+        divCenter.prepend(divPlusOne);
+        divPlusOne.classList.add('circle');
         let timer = (new Date()).getTime();
         sf.on(function (data, key) {
             num = data.num;
             numSpan.innerText = data.num;
         });
-        divPlusOne.addEventListener('click', function (e) {
+        divPlusOne.addEventListener('click', e => {
             let clickTime = (new Date()).getTime();
             if (e && e.isTrusted && num > -1 && clickTime - timer > 80) {
-                sf.put({
-                    num: num - (-1),
-                });
+                sf.put({num: num - (-1)});
                 timer = (new Date()).getTime();
-            } else {
-                alert('信仰帅副需要虔诚!');
-            }
-        })
+            } else alert('信仰帅副需要虔诚!');
+        });
     })();
 </script>
 </body>
