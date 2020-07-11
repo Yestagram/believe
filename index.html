@@ -66,19 +66,22 @@
 <script>
     (function () {
         let gun = Gun('https://gunjs.herokuapp.com/gun');
-        let sf = gun.get('shuaifu');
+        let sf = gun.get('sf_num');
         let num = -1;
         let numSpan = document.getElementById('num');
         let divPlusOne = document.getElementById('plus_one');
+        let timer = (new Date()).getTime();
         sf.on(function (data, key) {
             num = data.num;
             numSpan.innerText = data.num;
         });
-        divPlusOne.addEventListener('click', function () {
-            if (num !== -1) {
+        divPlusOne.addEventListener('click', function (e) {
+            let clickTime = (new Date()).getTime();
+            if (e && e.isTrusted && num > -1 && clickTime - timer > 80) {
                 sf.put({
-                    num: num + 1,
-                })
+                    num: num - (-1),
+                });
+                timer = (new Date()).getTime();
             }
         })
     })();
