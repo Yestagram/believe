@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>We believe Shuaifu</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            background: #efefef;
+        }
+
+        .center {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background: #e83e3e;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            box-shadow: #555555 1px 1px 10px;
+            user-select: none;
+        }
+
+        .circle:active {
+            box-shadow: #555555 1px 1px 6px;
+        }
+
+        .text {
+            user-select: none;
+            margin-top: 24px;
+            color: #555555;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="center">
+        <div class="circle" id="plus_one">+1</div>
+        <div class="text">已有<span id="num">_</span>人次信仰帅副</div>
+    </div>
+</div>
+<script>
+    (function () {
+        let gun = Gun('https://gunjs.herokuapp.com/gun');
+        let sf = gun.get('shuaifu');
+        let num = -1;
+        let numSpan = document.getElementById('num');
+        let divPlusOne = document.getElementById('plus_one');
+        sf.on(function (data, key) {
+            num = data.num;
+            numSpan.innerText = data.num;
+        });
+        divPlusOne.addEventListener('click', function () {
+            if (num !== -1) {
+                sf.put({
+                    num: num + 1,
+                })
+            }
+        })
+    })();
+</script>
+</body>
+</html>
